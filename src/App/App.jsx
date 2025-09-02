@@ -23,13 +23,14 @@ function App() {
             image="CASASYAPARTAMENTOS/casa.jpg"
             title="Casa Familiar en Girón"
             description="4 habitaciones, 3 baños, patio amplio y parqueadero. Zona tranquila y segura."
+            
             onClick={() => { /* acción al hacer clic */ }}
-          />
+            />
 
           <Card
             image="CASASYAPARTAMENTOS/2/WhatsApp-Image-2021-07-30-at-11.02.09-AM-1.jpeg"
-            title="Casa Familiar en Girón"
-            description="4 habitaciones, 3 baños, patio amplio y parqueadero. Zona tranquila y segura."
+            title="Apartamento Real de Minas"
+            description="2 habitaciones, 2 baños, Zona tranquila."
             onClick={() => { /* acción al hacer clic */ }}
           />
           <Card
