@@ -4,7 +4,7 @@ import { MarkersPlugin } from '@photo-sphere-viewer/markers-plugin';
 export default function startedFile(){
     const viewer = new Viewer({
         container: 'viewer',
-        panorama: 'public/casas/IA/3.jpeg',
+        panorama: 'public/casas/IA/3.jpg',
         caption: 'Parc national du Mercantour <b>&copy; Damien Sorel</b>',
         moveSpeed: 1.5,
         zoomSpeed: 1,
