@@ -1,5 +1,15 @@
-import { createRoot } from 'react-dom/client'
-import './main.css'
-import App from './App/App.jsx'
-import Tour from './Tour/Tour.jsx'
-createRoot(document.getElementById('root')).render(<Tour />)
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App/App.jsx";
+import Tour from "./Tour/Tour.jsx";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route path="/tour" element={<Tour />} />
+    </Routes>
+  </BrowserRouter>
+);
+
