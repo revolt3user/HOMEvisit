@@ -20,7 +20,7 @@ function App() {
         <div className={styles.grid}>
           
           <Card
-            image="CASASYAPARTAMENTOS/2/WhatsApp-Image-2021-07-30-at-11.02.09-AM-1.jpeg"
+            image="CASASYAPARTAMENTOS/casa.jpg"
             title="Casa Familiar en Girón"
             description="4 habitaciones, 3 baños, patio amplio y parqueadero. Zona tranquila y segura."
             onClick={() => { /* acción al hacer clic */ }}
