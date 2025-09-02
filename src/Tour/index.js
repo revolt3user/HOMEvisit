@@ -1,39 +1,88 @@
 import { Viewer } from '@photo-sphere-viewer/core';
 import { MarkersPlugin } from '@photo-sphere-viewer/markers-plugin';
 
-const scenes = [
-    {
-        panorama: 'public/casas/IA/1.jpg',
-        marker: {
-            id: 'element',
-            image: '/images/flecha.png',
-            size: { width: 100, height: 100 },
-            anchor: 'bottom center',
-            position: { yaw: grdToRad(0), pitch: grdToRad(-20) },
-            tooltip: 'Punto de interés 1',
-            className: 'info-marker'
-        },
+const scenes = {
+    Scene0: {
+        panorama: 'public/casas/original/0.jpg',
+        position: { yaw: 0, pitch: 0, roll: 0 },
+        markers: [
+            markerTemplate({ name: 'front', position: { yaw: 0, pitch: -20 } })
+        ],
+        markersTo: [
+            {front:"Scene2"}
+        ],
         next: 1,
         prev: null
     },
-    {
+    Scene1: {
+        panorama: 'public/casas/IA/1.jpg',
+        position: { yaw: 0, pitch: 0, roll: 0 },
+        markers: [
+            markerTemplate({ name: 'front', position: { yaw: 90, pitch: -20 } })
+        ],
+        markersTo: [
+            {front:"Scene2"}
+        ],
+        next: 1,
+        prev: null
+    },
+    Scene2:{
         panorama: '/casas/IA/2.jpg',
-        marker: {
-            id: 'element',
-            image: '/images/flecha.png',
-            size: { width: 100, height: 100 },
-            anchor: 'bottom center',
-            position: { yaw: grdToRad(0), pitch: grdToRad(-20) },
-            tooltip: 'Punto de interés 2',
-            className: 'info-marker'
-        },
+        position: { yaw: 0, pitch: 0, roll: 0 },
+        markers: [
+            markerTemplate({ name: 'front', position: { yaw: 0, pitch: -20 } }),
+            markerTemplate({ name: 'back', position: { yaw: 180, pitch: -20 } })
+        ],
+        markersTo: [
+            {front:"Scene3"}
+        ],
         next: null,
         prev: 0
+    },
+    Scene3:{
+        panorama: '/casas/original/3.jpg',
+        position: { yaw: 0, pitch: 0, roll: 0 },
+        markers: [
+            markerTemplate({ name: 'front', position: { yaw: 0, pitch: -20 } }),
+            markerTemplate({ name: 'back', position: { yaw: 180, pitch: -20 } })
+        ],
+        markersTo:[
+            {front:"Scene4"}
+        ],
+        next: null,
+        prev: 1
+    },
+    Scene4:{
+        panorama: '/casas/original/4.jpg',
+        position: { yaw: 0, pitch: 0, roll: 0 },
+        markers: [
+            markerTemplate({ name: 'front', position: { yaw: 0, pitch: -20 } }),
+            markerTemplate({ name: 'back', position: { yaw: 180, pitch: -20 } })
+        ],
+        markersTo:[
+            {front:"Scene5"}
+        ],
+        next: null,
+        prev: 2
+    },
+    Scene5:{
+        panorama: '/casas/original/5.jpg',
+        position: { yaw: 0, pitch: 0, roll: 0 },
+        markers: [
+            markerTemplate({ name: 'front', position: { yaw: 0, pitch: -20 } }),
+            markerTemplate({ name: 'back', position: { yaw: 180, pitch: -20 } })
+        ],
+        markersTo:[
+            {front:"Scene6"}
+        ],
+        next: null,
+        prev: 3
     }
-];
+
+};
 
 export default function startedFile() {
-    let currentScene = 0;
+    let currentScene = 'Scene0';
 
     const viewer = new Viewer({
         container: 'viewer',
@@ -45,60 +94,45 @@ export default function startedFile() {
         plugins: [MarkersPlugin.withConfig()],
     });
     const markersPlugin = viewer.getPlugin(MarkersPlugin);
-    
-    function showScene(index) {
-        currentScene = index;
-        viewer.setPanorama(scenes[index].panorama).then(() => {
-            markersPlugin.setMarkers([scenes[index].marker]);
-        });
-    }
 
     viewer.addEventListener('ready', () => {
-        markersPlugin.setMarkers([scenes[currentScene].marker]);
+        markersPlugin.clearMarkers();
+        markersPlugin.setMarkers(scenes[currentScene].markers);
     });
     
+    markersPlugin.addEventListener('select-marker', ({ marker }) => {
+        markersPlugin.clearMarkers();
+        const arrayMarkersTo = scenes[currentScene].markersTo;
+        // Find the object in markersTo array that has the marker id as a key
+        const markerToObj = arrayMarkersTo.find(obj => obj.hasOwnProperty(marker.id));
+        if (markerToObj) {
+            const targetSceneName = markerToObj[marker.id];
+            const targetScene = scenes[targetSceneName];
+            if (targetScene) {
+                currentScene = targetSceneName;
+                viewer.setPanorama(targetScene.panorama);
+                viewer.sphereCorrection = { yaw: grdToRad(targetScene.position.yaw), tilt: grdToRad(targetScene.position.pitch), roll: grdToRad(targetScene.position.roll) };
+                markersPlugin.setMarkers(targetScene.markers);
+            }
+        }
+    });
 }
+
 function grdToRad(degrees) {
     return (degrees * Math.PI) / 180;
 }
 
-// import { Viewer } from '@photo-sphere-viewer/core';
-// import { MarkersPlugin } from '@photo-sphere-viewer/markers-plugin';
-
-// export default function startedFile(){
-//     const viewer = new Viewer({
-//         container: 'viewer',
-//         panorama: 'public/casas/IA/3.jpeg',
-//         caption: 'Parc national du Mercantour <b>&copy; Damien Sorel</b>',
-//         moveSpeed: 1.5,
-//         zoomSpeed: 1,
-//         sphereCorrection: { 
-//             pan: (90 * Math.PI) / 180, 
-//             tilt: 0, 
-//             roll: 0 
-//         },
-//         plugins: [
-//             MarkersPlugin.withConfig(),
-//         ],
-//     });
-
-
-//     const markersPlugin = viewer.getPlugin(MarkersPlugin);
-
-//         viewer.addEventListener('ready', () => {
-//         markersPlugin.setMarkers([{
-//             id: 'element',
-//             image: './right-arrow.png',
-//             size: { width: 100, height: 100 }, // Solo con size también funciona
-//             anchor: 'bottom center',
-//             position: { 
-//                 yaw: (0 * Math.PI) / 180, 
-//                 pitch: (-20 * Math.PI) / 180 
-//             },
-//             tooltip: 'Punto de interés 1',
-//             className: 'info-marker'
-//         }]);
-
-
-//         })
-// }
+function markerTemplate({name, position = { yaw: grdToRad(0), pitch: grdToRad(0)}}) {
+    return {
+        id: name,
+        image: '/images/flecha.png',
+        size: { width: 100, height: 100 },
+        anchor: 'bottom center',
+        position: {
+            yaw: grdToRad(position.yaw),
+            pitch: grdToRad(position.pitch)
+        },
+        tooltip: `Punto de interés ${name.split('Scene')[1]}`,
+        className: 'info-marker'
+    };
+}
