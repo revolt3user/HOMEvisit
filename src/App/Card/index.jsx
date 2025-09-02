@@ -11,7 +11,8 @@ export default function Card({ image, title, description }) {
       <div className={styles.cardContent}>
         <h2>{title}</h2>
         <p>{description}</p>
-        <button onClick={() => navigate("/tour")}>Ver más</button>
+        {/* <button onClick={() => navigate("/tour")}>Ver más</button> */}
+        <button onClick={() => navigate("/inmueble-venta")}>Ver más</button>
       </div>
     </div>
   );
