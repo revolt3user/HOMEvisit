@@ -3,7 +3,7 @@ import { MarkersPlugin } from '@photo-sphere-viewer/markers-plugin';
 
 const scenes = {
     Scene0: {
-        panorama: 'public/casas/original/0.jpg',
+        panorama: '/casas/original/0.jpg',
         position: { yaw: 0, pitch: 0, roll: 0 },
         markers: [
             markerTemplate({ name: 'front', position: { yaw: 0, pitch: -20 } })
@@ -15,7 +15,7 @@ const scenes = {
         prev: null
     },
     Scene1: {
-        panorama: 'public/casas/IA/1.jpg',
+        panorama: '/casas/IA/1.jpg',
         position: { yaw: 0, pitch: 0, roll: 0 },
         markers: [
             markerTemplate({ name: 'front', position: { yaw: 90, pitch: -20 } })
